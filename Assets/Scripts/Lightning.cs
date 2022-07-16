@@ -54,23 +54,25 @@ namespace Tegridy.Effects
 
         private void CalculatePoints()
         {
-            float distance = Vector3.Distance(lineTranforms[0].position, lineTranforms[lineTranforms.Length - 1].position) / points.Length;
-
-            mainTextureScale.x = distance;
-            mainTextureOffset.x = Random.Range(-randomness, randomness);
-            lRend.material.SetTextureScale(mainTexture, mainTextureScale);
-            lRend.material.SetTextureOffset(mainTexture, mainTextureOffset);
+            float distance = 0f;
 
             for (int i = 0; i < points.Length; i++)
             {
                 points[i] = lineTranforms[i].position;
                 if (i != 0 && i != points.Length - 1)
                 {
+                    distance += Vector3.Distance(lineTranforms[i -1].position, lineTranforms[i].position);
                     points[i].x += Random.Range(-randomness, randomness);
                     points[i].y += Random.Range(-randomness, randomness);
                     points[i].z += Random.Range(-randomness, randomness);
                 }
             }
+
+            mainTextureScale.x = distance;
+            mainTextureOffset.x = Random.Range(-randomness, randomness);
+            lRend.material.SetTextureScale(mainTexture, mainTextureScale);
+            lRend.material.SetTextureOffset(mainTexture, mainTextureOffset);
+
             lRend.SetPositions(points);
         }
     }
